@@ -1,0 +1,86 @@
+service: email
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: us-west-2
+  stage: dev
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - ses:SendRawEmail
+        - s3:GetObject
+        - s3:PutObject
+        - sns:Subscribe
+      Resource: "*"
+
+resources:  # CloudFormation template syntax
+  Resources:
+    emailMetadataTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: email-metadata-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+    messageFailureTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: message-failure-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: messageId
+            AttributeType: S
+          - AttributeName: destination
+            AttributeType: S
+        KeySchema:
+          - AttributeName: messageId
+            KeyType: HASH
+          - AttributeName: destination
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    emailAttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: email-attachments-bucket-${self:provider.stage}
+    emailHistoryBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: email-history-bucket-${self:provider.stage}
+
+functions:
+  saveNotification:
+    handler: api/email.saveNotification
+    memorySize: 128
+    timeout: 30
+    description: Send notification to dynamodb
+    environment:
+      messageFailureTableName: message-failure-${self:provider.stage}
+    events:
+      - sns: email-notifications-${self:provider.stage}
+  sendEmail:
+    handler: api/email.sendEmail
+    memorySize: 128
+    timeout: 30
+    description: Send email to candidate
+    environment:
+      emailAttachmentsBucketName: email-attachments-bucket-${self:provider.stage}
+      emailHistoryBucketName: email-history-bucket-${self:provider.stage}
+    events:
+      - stream:
+          type: dynamodb
+          arn: { Fn::GetAtt: [ emailMetadataTable, StreamArn ] }
