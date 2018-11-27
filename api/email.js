@@ -55,10 +55,10 @@ module.exports.sendEmail = function (event, context, callback) {
   for (let i = 0; i < insertEvents.length; i++) {
     var record = insertEvents[i];
     var data = JSON.parse(record.dynamodb.NewImage.data.S);
-    var templateName = record.dynamodb.NewImage.subject.S.includes("Credit") ? "creditcard-payment" : "ach-payment";
+    var templateName = record.dynamodb.NewImage.subject.S.includes("first") ? "first-name" : "last-name";
 
-    if(data.attachmentName != null){
-      getS3File(process.env.emailAttachmentsBucketName, data.confirmationNumber + '.pdf')
+    if(record.dynamodb.NewImage.attachmentName.S != null){
+      getS3File(process.env.emailAttachmentsBucketName, record.dynamodb.NewImage.attachmentName.S)
       .then(function (fileData) {
 
         var mailOptions = {
@@ -72,7 +72,7 @@ module.exports.sendEmail = function (event, context, callback) {
 
           attachments: [
             {
-              filename: data.attachmentName,
+              filename: record.dynamodb.NewImage.attachmentName.S,
               content: fileData.Body
             }
           ]
