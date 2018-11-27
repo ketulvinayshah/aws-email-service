@@ -67,18 +67,7 @@ module.exports.sendEmail = function (event, context, callback) {
           to: record.dynamodb.NewImage.to.S,
           template: templateName,
           context: {
-            customerEmail: data.customerEmail,
-            paymentType: data.paymentType,
-            paymentDate: data.paymentDate,
-            paymentAmount: data.paymentAmount,
-            dpuTransactionId: data.dpuTransactionId,
-            confirmationNumber: data.confirmationNumber,
-            bankAccountNumber: data.bankAccountNumber,
-            billingAccountNumber: data.billingAccountNumber,
-            supportPhoneNumber: data.supportPhoneNumber,
-            supportEmail: data.supportEmail,
-            paymentDetails: data.paymentDetails,
-            selectedPaymentMethod: data.selectedPaymentMethod
+            data: data
           },
 
           attachments: [
@@ -128,18 +117,7 @@ module.exports.sendEmail = function (event, context, callback) {
           to: record.dynamodb.NewImage.to.S,
           template: templateName,
           context: {
-            customerEmail: data.customerEmail,
-            paymentType: data.paymentType,
-            paymentDate: data.paymentDate,
-            paymentAmount: data.paymentAmount,
-            dpuTransactionId: data.dpuTransactionId,
-            confirmationNumber: data.confirmationNumber,
-            bankAccountNumber: data.bankAccountNumber,
-            billingAccountNumber: data.billingAccountNumber,
-            supportPhoneNumber: data.supportPhoneNumber,
-            supportEmail: data.supportEmail,
-            paymentDetails: data.paymentDetails,
-            selectedPaymentMethod: data.selectedPaymentMethod
+            data: data
           }
         };
 

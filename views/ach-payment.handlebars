@@ -45,7 +45,7 @@
 										</tr>
 										<tr>
 											<td valign="top" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A;letter-spacing:.02rem; ">
-												Thank you for the payment of <span style="font-weight:600;">${{paymentAmount}}</span>.
+												Thank you for the payment of <span style="font-weight:600;">${{data.paymentAmount}}</span>.
 											</td>
 										</tr>
 										<tr>
@@ -78,7 +78,7 @@
 															Amount
 														</td>
 													</tr>
-													{{#each paymentDetails}}
+													{{#each data.paymentDetails}}
                                                        <tr>
                                                             <td style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A; letter-spacing:.02rem;">
 																															{{billingAccountNumber}}
@@ -100,7 +100,7 @@
 															Payment:
 														</td>
 														<td align="right" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:600; line-height:24px; color:#52555A; letter-spacing:.02rem;">
-															${{paymentAmount}}
+															${{data.paymentAmount}}
 														</td>
 													</tr>
 												</table>
@@ -111,17 +111,17 @@
 										</tr>
 										<tr>
 											<td valign="top" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A;letter-spacing:.02rem; ">
-												Date payment submitted:  <span style="font-weight:600">{{paymentDate}}</span>
+												Date payment submitted:  <span style="font-weight:600">{{data.paymentDate}}</span>
 											</td>
 										</tr>
 										<tr>
 											<td valign="top" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A;letter-spacing:.02rem; ">
-												{{selectedPaymentMethod}} account ending in:  <span style="font-weight:600">{{bankAccountNumber}}</span>
+												{{data.selectedPaymentMethod}} account ending in:  <span style="font-weight:600">{{data.bankAccountNumber}}</span>
 											</td>
 										</tr>
 										<tr>
 											<td valign="top" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A;letter-spacing:.02rem; ">
-												Confirmation number:  <span style="font-weight:600">{{confirmationNumber}}</span>
+												Confirmation number:  <span style="font-weight:600">{{data.confirmationNumber}}</span>
 											</td>
 										</tr>
 										<tr>
@@ -129,7 +129,7 @@
                                         										</tr>
                                         										<tr>
                                         											<td valign="top" style="font-family: 'Source Sans Pro', sans-serif; font-size:18px; font-weight:300; line-height:24px; color:#52555A;letter-spacing:.02rem; ">
-                                        											  If you have questions about this payment or need assistance, contact our support line at <span style="font-weight:600;">{{supportPhoneNumber}}</span> (Mon - Fri, 8 am to 8:30 pm ET), or send an email at <span style="font-weight:600;">{{supportEmail}}</span>. Please allow 1 business day for an email response.
+                                        											  If you have questions about this payment or need assistance, contact our support line at <span style="font-weight:600;">{{data.supportPhoneNumber}}</span> (Mon - Fri, 8 am to 8:30 pm ET), or send an email at <span style="font-weight:600;">{{data.supportEmail}}</span>. Please allow 1 business day for an email response.
                                         											</td>
                                         										</tr>
                                         										<tr>
