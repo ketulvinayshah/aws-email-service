@@ -57,7 +57,7 @@ module.exports.sendEmail = function (event, context, callback) {
     var data = JSON.parse(record.dynamodb.NewImage.data.S);
     var templateName = record.dynamodb.NewImage.subject.S.includes("first") ? "first-name" : "last-name";
 
-    if(record.dynamodb.NewImage.attachmentName.S != null){
+    if(record.dynamodb.NewImage.attachmentName != null){
       getS3File(process.env.emailAttachmentsBucketName, record.dynamodb.NewImage.attachmentName.S)
       .then(function (fileData) {
 
